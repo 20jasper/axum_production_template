@@ -1,0 +1,35 @@
+name: verify
+
+on:
+  pull_request:
+    branches:
+      - main
+      - "**"
+  push:
+    branches:
+      - main
+
+env:
+  CARGO_TERM_COLOR: always
+  TOOLCHAIN: stable
+
+jobs:
+  ci:
+    timeout-minutes: 10
+    name: verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: update rust
+        run: rustup update ${{ env.TOOLCHAIN }} && rustup default ${{ env.TOOLCHAIN }}
+      - name: Configure Dependency Caching
+        uses: Swatinem/rust-cache@v2
+      - name: build
+        run: cargo build --verbose
+      - name: check formatting
+        run: cargo fmt --all -- --check
+      - name: test
+        run: cargo test --verbose
