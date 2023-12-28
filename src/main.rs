@@ -1,14 +1,23 @@
 use std::net::SocketAddr;
 
-use axum::{response::Html, routing::get, serve, Router};
+use axum::{extract::Query, response::Html, routing::get, serve, Router};
+use serde::Deserialize;
 use tokio::net::TcpListener;
+
+#[derive(Deserialize)]
+struct HelloProps {
+	name: String,
+}
+
+async fn hello_handler(Query(props): Query<HelloProps>) -> Html<String> {
+	let name = props.name;
+
+	Html(format!("<h1>hello {name}</h1>"))
+}
 
 #[tokio::main]
 async fn main() {
-	let routes_hello = Router::new().route(
-		"/hello",
-		get(|| async { Html("<h1>hello from the server</h1>") }),
-	);
+	let routes_hello = Router::new().route("/hello", get(hello_handler));
 
 	let address = SocketAddr::from(([127, 0, 0, 1], 8080));
 	let listener = TcpListener::bind(address)
