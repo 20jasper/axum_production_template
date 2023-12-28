@@ -2,9 +2,9 @@
 dev:
     cargo watch --poll -q -c -w src/ -x "run"
 
-# build and run tests on save
-test:
-    cargo watch --poll -q -c -w examples/ -x "run --example quick_dev"
+# build and run example query on save
+example:
+    cargo watch --poll -q -c -w examples/ -x "run --example quick_dev -- --nocapture"
 
 # format rust, justfile, and markdown
 format:
