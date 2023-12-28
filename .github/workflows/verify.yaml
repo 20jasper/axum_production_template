@@ -15,9 +15,13 @@ env:
 
 jobs:
   ci:
-    timeout-minutes: 10
+    timeout-minutes: 30
     name: verify
     runs-on: ubuntu-latest
+
+    # fail on rust warnings
+    env:
+      RUSTFLAGS: "-Dwarnings"
 
     steps:
       - name: checkout code
@@ -25,11 +29,21 @@ jobs:
 
       - name: update rust
         run: rustup update ${{ env.TOOLCHAIN }} && rustup default ${{ env.TOOLCHAIN }}
+      - name: Install Zig toolchain
+        uses: korandoru/setup-zig@v1
+        with:
+          zig-version: 0.10.0
+      - name: Install just
+        uses: taiki-e/install-action@just
+
       - name: Configure Dependency Caching
         uses: Swatinem/rust-cache@v2
-      - name: build
-        run: cargo build --verbose
+
       - name: check formatting
-        run: cargo fmt --all -- --check
+        run: just format-check
+      - name: lint
+        run: just lint
       - name: test
         run: cargo test --verbose
+      - name: build
+        run: cargo build --verbose
