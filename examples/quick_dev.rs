@@ -4,7 +4,7 @@ use anyhow::Result;
 async fn main() -> Result<()> {
 	let hc = httpc_test::new_client("http://localhost:8080")?;
 
-	hc.do_get("/hello?name=bill")
+	hc.do_get("/hello?name=vale")
 		.await?
 		.print()
 		.await?;

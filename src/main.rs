@@ -6,11 +6,12 @@ use tokio::net::TcpListener;
 
 #[derive(Deserialize)]
 struct HelloProps {
-	name: String,
+	name: Option<String>,
 }
 
-async fn hello_handler(Query(props): Query<HelloProps>) -> Html<String> {
-	let name = props.name;
+async fn hello_handler(Query(HelloProps { name }): Query<HelloProps>) -> Html<String> {
+	// prevent extra string allocation with `as_deref`
+	let name = name.as_deref().unwrap_or("world");
 
 	Html(format!("<h1>hello {name}</h1>"))
 }
