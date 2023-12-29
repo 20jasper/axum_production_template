@@ -9,5 +9,10 @@ async fn main() -> Result<()> {
 		.print()
 		.await?;
 
+	hc.do_get("/bye/jacob/asper")
+		.await?
+		.print()
+		.await?;
+
 	Ok(())
 }
