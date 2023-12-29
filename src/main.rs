@@ -38,6 +38,10 @@ fn greetings_routes() -> Router {
 		.route("/bye/:name/:last_name", get(bye_handler))
 }
 
+mod error;
+
+pub use self::error::{Error, Result};
+
 #[tokio::main]
 async fn main() {
 	let routes = Router::new()
