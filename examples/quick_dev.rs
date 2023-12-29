@@ -14,5 +14,10 @@ async fn main() -> Result<()> {
 		.print()
 		.await?;
 
+	hc.do_get("/images/ferris_new_years.png")
+		.await?
+		.print()
+		.await?;
+
 	Ok(())
 }
