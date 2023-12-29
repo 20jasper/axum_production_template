@@ -31,11 +31,15 @@ async fn bye_handler(Path(ByeParams { name, last_name }): Path<ByeParams>) -> Ht
 	Html(format!("<h1>bye {name} {last_name}</h1>"))
 }
 
+fn greetings_routes() -> Router {
+	Router::new()
+		.route("/hello", get(hello_handler))
+		.route("/bye/:name/:last_name", get(bye_handler))
+}
+
 #[tokio::main]
 async fn main() {
-	let routes_hello = Router::new()
-		.route("/hello", get(hello_handler))
-		.route("/bye/:name/:last_name", get(bye_handler));
+	let routes = Router::new().merge(greetings_routes());
 
 	let address = SocketAddr::from(([127, 0, 0, 1], 8080));
 	let listener = TcpListener::bind(address)
@@ -43,7 +47,7 @@ async fn main() {
 		.unwrap();
 	println!("Listening on http://{address}");
 
-	serve(listener, routes_hello.into_make_service())
+	serve(listener, routes.into_make_service())
 		.await
 		.unwrap();
 }
