@@ -5,11 +5,11 @@ use serde::Deserialize;
 use tokio::net::TcpListener;
 
 #[derive(Deserialize)]
-struct HelloProps {
+struct HelloParams {
 	name: Option<String>,
 }
 
-async fn hello_handler(Query(HelloProps { name }): Query<HelloProps>) -> Html<String> {
+async fn hello_handler(Query(HelloParams { name }): Query<HelloParams>) -> Html<String> {
 	// prevent extra string allocation with `as_deref`
 	let name = name.as_deref().unwrap_or("world");
 
