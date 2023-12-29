@@ -8,6 +8,7 @@ use axum::{
 };
 use serde::Deserialize;
 use tokio::net::TcpListener;
+use tower_http::services::ServeDir;
 
 #[derive(Deserialize)]
 struct HelloParams {
@@ -39,7 +40,9 @@ fn greetings_routes() -> Router {
 
 #[tokio::main]
 async fn main() {
-	let routes = Router::new().merge(greetings_routes());
+	let routes = Router::new()
+		.merge(greetings_routes())
+		.fallback_service(ServeDir::new("public/"));
 
 	let address = SocketAddr::from(([127, 0, 0, 1], 8080));
 	let listener = TcpListener::bind(address)
