@@ -25,3 +25,16 @@ impl ModelController {
 		Ok(Self { ticket_store })
 	}
 }
+
+impl ModelController {
+	pub async fn create_ticket(&self, ClientTicket { title }: ClientTicket) -> Result<Ticket> {
+		let mut store = self.ticket_store.lock().unwrap();
+		let id = store.len() as u64;
+
+		let ticket = Ticket { id, title };
+
+		store.push(Some(ticket.clone()));
+
+		Ok(ticket)
+	}
+}
