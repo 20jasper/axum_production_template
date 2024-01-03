@@ -22,7 +22,9 @@ async fn main() {
 	let routes = Router::new()
 		.merge(greeting::routes())
 		.merge(login::routes())
+		// layers run from bottom to top
 		.layer(middleware::map_response(response_mapper))
+		.layer(tower_cookies::CookieManagerLayer::new())
 		.fallback_service(ServeDir::new("public/"));
 
 	let address = SocketAddr::from(([127, 0, 0, 1], 8080));
