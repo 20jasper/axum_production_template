@@ -5,6 +5,7 @@ use tokio::net::TcpListener;
 use tower_http::services::ServeDir;
 
 mod error;
+mod model;
 mod web;
 
 pub use self::error::{Error, Result};
