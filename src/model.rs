@@ -37,4 +37,16 @@ impl ModelController {
 
 		Ok(ticket)
 	}
+
+	pub async fn list_tickets(&self) -> Result<Vec<Ticket>> {
+		let store = self.ticket_store.lock().unwrap();
+
+		let tickets = store
+			.iter()
+			.filter_map(Option::as_ref)
+			.cloned()
+			.collect::<Vec<Ticket>>();
+
+		Ok(tickets)
+	}
 }
