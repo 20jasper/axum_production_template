@@ -18,17 +18,17 @@ pub struct ClientTicket {
 	title: String,
 }
 
-pub struct ModelController {
+pub struct Controller {
 	ticket_store: Arc<Mutex<Vec<Option<Ticket>>>>,
 }
 
-impl ModelController {
+impl Controller {
 	pub async fn new(ticket_store: Arc<Mutex<Vec<Option<Ticket>>>>) -> Result<Self> {
 		Ok(Self { ticket_store })
 	}
 }
 
-impl ModelController {
+impl Controller {
 	pub async fn create_ticket(&self, ClientTicket { title }: ClientTicket) -> Result<Ticket> {
 		let mut store = self.ticket_store.lock().unwrap();
 		let id = store.len() as u64;
