@@ -4,9 +4,9 @@ use axum::{middleware, response::Response, serve, Router};
 use tokio::net::TcpListener;
 use tower_http::services::ServeDir;
 
-mod error;
-mod model;
-mod web;
+pub mod error;
+pub mod model;
+pub mod web;
 
 pub use self::error::{Error, Result};
 use web::routes::{greeting, login};
