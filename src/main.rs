@@ -5,6 +5,7 @@ use tokio::net::TcpListener;
 use tower_http::services::ServeDir;
 
 pub mod error;
+pub mod model;
 pub mod web;
 
 pub use self::error::{Error, Result};
@@ -19,6 +20,11 @@ async fn response_mapper(res: Response) -> Response {
 
 #[tokio::main]
 async fn main() {
+	assert!(
+		core::mem::size_of::<u64>() >= core::mem::size_of::<u128>(),
+		"machine uses greater than 64 bit architecture"
+	);
+
 	let routes = Router::new()
 		.merge(greeting::routes())
 		.merge(login::routes())
