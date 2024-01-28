@@ -20,6 +20,11 @@ async fn response_mapper(res: Response) -> Response {
 
 #[tokio::main]
 async fn main() {
+	assert!(
+		core::mem::size_of::<u64>() >= core::mem::size_of::<u128>(),
+		"machine uses greater than 64 bit architecture"
+	);
+
 	let routes = Router::new()
 		.merge(greeting::routes())
 		.merge(login::routes())
