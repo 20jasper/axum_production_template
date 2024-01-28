@@ -1,5 +1,7 @@
 //! Model layer with mock store layer for prototyping
 
+#![allow(dead_code)]
+
 use std::sync::{Arc, Mutex};
 
 use crate::{Error, Result};
@@ -48,5 +50,15 @@ impl ModelController {
 			.collect::<Vec<Ticket>>();
 
 		Ok(tickets)
+	}
+
+	pub async fn delete_ticket(&self, id: u64) -> Result<Ticket> {
+		let mut store = self.ticket_store.lock().unwrap();
+
+		let ticket = store
+			.get_mut(id as usize)
+			.and_then(|t| t.take());
+
+		ticket.ok_or(Error::TicketDeleteFailureIdNotFound { id })
 	}
 }
