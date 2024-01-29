@@ -15,7 +15,7 @@ tower-http = { version = "0.5.1", features = ["fs"] }
 
 [dev-dependencies]
 anyhow = "1.0.79"
-httpc-test = "0.1.1"
+httpc-test = "0.1.9"
 
 [lints.rust]
 # deny

@@ -500,12 +500,11 @@ checksum = "d897f394bad6a705d5f4104762e116a75639e470d80901eed05a860a95cb1904"
 
 [[package]]
 name = "httpc-test"
-version = "0.1.8"
+version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "29d808a51f582187c50e5df01f131c67b3b44a347224419267c2a2769e95b9b4"
+checksum = "7bf25442a8656ad92d01fc579a48a632ddc5c2eab8948aef86b92e51f824a966"
 dependencies = [
  "cookie 0.17.0",
- "http 0.2.11",
  "reqwest",
  "reqwest_cookie_store",
  "serde",
